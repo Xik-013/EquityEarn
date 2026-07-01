@@ -1,8 +1,8 @@
 # CLAUDE.md — EquityEarn
 # Last updated: July 2026
 # On every session — read these files before any design or code work:
-# https://raw.githubusercontent.com/YOUR_USERNAME/equityearn/main/design-tokens.md
-# https://raw.githubusercontent.com/YOUR_USERNAME/equityearn/main/component-map.md
+# https://raw.githubusercontent.com/Xik-013/EquityEarn/main/design-tokens.md
+# https://raw.githubusercontent.com/Xik-013/EquityEarn/main/component-map.md
 
 ---
 
