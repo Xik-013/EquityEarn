@@ -14,6 +14,29 @@
 
 ## Colour tokens
 
+### oklch equivalents (shadcn v4 format — use these in globals.css)
+
+| Token              | Hex      | oklch value              |
+|--------------------|----------|--------------------------|
+| primary (teal)     | #14b8a6  | oklch(0.704 0.14 192)    |
+| primary-foreground | #ffffff  | oklch(1 0 0)             |
+| muted              | #f4f4f5  | oklch(0.97 0 0)          |
+| muted-foreground   | #71717b  | oklch(0.556 0 0)         |
+| border             | #e4e4e7  | oklch(0.922 0 0)         |
+| ring               | #14b8a6  | oklch(0.704 0.14 192)    |
+| health-safe        | #22c55e  | oklch(0.723 0.191 149)   |
+| health-warning     | #eab308  | oklch(0.853 0.17 84)     |
+| health-alert       | #f97316  | oklch(0.747 0.198 47)    |
+| health-critical    | #ef4444  | oklch(0.637 0.237 25)    |
+
+### globals.css font wiring (shadcn v4)
+
+In @theme inline block, change:
+  --font-sans: var(--font-geist-sans);   ← default
+to:
+  --font-sans: var(--font-figtree);      ← EquityEarn
+  --font-heading: var(--font-playfair);  ← logo wordmark only
+
 ### CSS variables (app/globals.css :root)
 
 ```css
