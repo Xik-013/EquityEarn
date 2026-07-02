@@ -88,9 +88,10 @@ no border around the outer wrapper.
   <div className="min-h-screen flex">
     <div className="flex w-full overflow-hidden">
 
-❌ Wrong — creates a visible border/gap:
+❌ Wrong:
   <div className="min-h-screen flex items-center justify-center bg-muted p-4">
     <div className="flex w-full max-w-[1333px] h-[930px] rounded-[14px] border">
+  
 
 Post-login screens (dashboard, KYC, etc.) use the standard layout:
   bg-muted full page → centered card with rounded corners and border
