@@ -50,6 +50,10 @@
 - Always apply published shadcn text styles to Figma text nodes via importStyleByKeyAsync — never set raw font properties.
 - Always use Text-2xl/Bold for all screen titles, card titles, and modal titles.
 - Always reuse an existing component before building a new one.
+- Always use oklch() colour format in globals.css — this project uses 
+  shadcn v4 which uses oklch, not hsl. Never paste hsl values directly.
+- Always remove max-w and margin from the outermost page wrapper on 
+  full-bleed layouts (Sign In, Sign Up) — the card IS the viewport.
 
 ## Never
 
