@@ -48,6 +48,39 @@ import { NavBar } from "@/components/equityearn/nav-bar"
 <NavBar activePage="dashboard" />
 ```
 
+## Footer — canonical footer component (all screens)
+
+Every screen MUST use the canonical footer component.
+Never build a footer manually from plain text nodes or frames.
+
+| Property      | Value                                      |
+|---------------|--------------------------------------------|
+| Name          | Navigation/Footer/Desktop                  |
+| Library       | 📚 Equity Earn Library                     |
+| Component key | 82cab9d0249d30fab246b5c370843c365c81ba1b  |
+| Node          | 19:35 in file ubekstH5XQHdhPaSd45zps       |
+| Size          | 1440 × 68px                               |
+
+```js
+// Figma MCP usage — always last child of outer frame
+const footerMaster = await figma.importComponentByKeyAsync(
+  "82cab9d0249d30fab246b5c370843c365c81ba1b"
+);
+const footerInst = footerMaster.createInstance();
+footerInst.resize(1440, 68);
+frame.appendChild(footerInst); // always last child
+```
+
+```tsx
+// React usage
+import { Footer } from "@/components/equityearn/footer"
+<Footer />
+```
+
+### Frame structure rule (post-login screens)
+
+Every post-login screen outer frame must follow this exact structure:
+
 ### Screens confirmed using this component
 
 | Screen            | Frame node    | Status     |
