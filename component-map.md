@@ -8,7 +8,7 @@
 
 ```bash
 npx shadcn@latest init
-npx shadcn@latest add card input label button separator
+npx shadcn@latest add card input label button separator alert
 npx shadcn@latest add badge table tabs dialog slider progress
 npx shadcn@latest add select dropdown-menu switch toast sheet
 npm install lucide-react
@@ -50,10 +50,10 @@ import { NavBar } from "@/components/equityearn/nav-bar"
 
 ### Screens confirmed using this component
 
-| Screen           | Frame node    | Status     |
-|------------------|---------------|------------|
-| KYC Handoff      | 40002688-331  | ✅ Updated |
-| Company Selection| 40002862-790  | ✅ Built   |
+| Screen            | Frame node    | Status     |
+|-------------------|---------------|------------|
+| KYC Handoff       | 40002688-331  | ✅ Updated |
+| Company Selection | 40002862-790  | ✅ Built   |
 
 ---
 
@@ -79,23 +79,6 @@ logoInst.rescale(40 / logoInst.height); // rescale() not resize()
 ```
 
 ---
-## Full-bleed page layouts (Sign In, Sign Up)
-
-Pre-login screens fill the full viewport — no padding, no max-width,
-no border around the outer wrapper.
-
-✅ Correct:
-  <div className="min-h-screen flex">
-    <div className="flex w-full overflow-hidden">
-
-❌ Wrong:
-  <div className="min-h-screen flex items-center justify-center bg-muted p-4">
-    <div className="flex w-full max-w-[1333px] h-[930px] rounded-[14px] border">
-  
-
-Post-login screens (dashboard, KYC, etc.) use the standard layout:
-  bg-muted full page → centered card with rounded corners and border
-
 
 ## With Label — canonical input pattern
 
@@ -127,9 +110,9 @@ inst.resize(331, inst.height);
 inst.primaryAxisSizingMode = "AUTO"; // CRITICAL — FIXED collapses to 10px
 
 inst.setProperties({
-  "Label#3098:6":   "First name",
-  "Input#3097:0":   "Francisco",
-  "State":          "default",        // "active" for focus state
+  "Label#3098:6":     "First name",
+  "Input#3097:0":     "Francisco",
+  "State":            "default",   // "active" for focus state
   "Show Text#3052:0": false,
 });
 ```
@@ -169,15 +152,86 @@ import { Input } from "@/components/ui/input"
 
 ---
 
+## Alert — shadcn component
+
+Install: `npx shadcn@latest add alert`
+
+Figma source: v8toW8lsKvo6KXkPTzJOBD, node 73:3445
+Component key: 3b73139454f78b817917c6f113fc1d68271f9392
+
+### Figma spec (from node 73:3445)
+- bg:     --background (white)
+- border: 1px solid --border (#e4e4e7)
+- radius: --radius-xl (14px)
+- py:     --py-3 (12px) / px: --px-4 (16px)
+- icon:   16x16 lucide icon (left of title)
+- title:  Text-sm/Medium, --foreground
+- desc:   Text-sm/Light, --foreground
+
+### Rules
+Always use shadcn Alert for all info notices, warnings, and status messages.
+Never use a plain div with hardcoded background colour for alerts.
+
+```tsx
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Info } from "lucide-react"
+
+// Default (white bg, border)
+<Alert>
+  <Info className="h-4 w-4" />
+  <AlertDescription>
+    All documents will be securely stored and reviewed by our compliance team.
+  </AlertDescription>
+</Alert>
+
+// Blue info variant
+<Alert className="bg-[#eff6ff] border-[#bedbff] [&>svg]:text-[#1c398e]">
+  <Info className="h-4 w-4" />
+  <AlertDescription className="text-[#1c398e]">
+    Your employment contract must show restricted stock compensation.
+  </AlertDescription>
+</Alert>
+
+// With title + description
+<Alert>
+  <Info className="h-4 w-4" />
+  <AlertTitle>Heads up</AlertTitle>
+  <AlertDescription>This is the description text.</AlertDescription>
+</Alert>
+```
+
+### EquityEarn alert colour variants
+
+| Use case       | bg       | border   | text     |
+|----------------|----------|----------|----------|
+| Default info   | white    | #e4e4e7  | foreground |
+| Blue info      | #eff6ff  | #bedbff  | #1c398e  |
+| Warning (LTV)  | #fffbeb  | #fde68a  | #92400e  |
+| Critical (LTV) | #fef2f2  | #fecaca  | #991b1b  |
+
+### Figma MCP usage
+
+```js
+const alertMaster = await figma.importComponentByKeyAsync(
+  "3b73139454f78b817917c6f113fc1d68271f9392"
+);
+const alertInst = alertMaster.createInstance();
+alertInst.resize(672, alertInst.height);
+alertInst.primaryAxisSizingMode = "AUTO";
+// Update title and description text nodes via findOne + characters
+```
+
+---
+
 ## Stepper (onboarding flow)
 
-| Variant    | Key                                        | State                         |
-|------------|--------------------------------------------|-------------------------------|
-| Stepper=1  | 895eb3f2c0c3dd1ad525f95f14d6d08beca96914  | Step 1 active (Company)       |
-| Stepper=1.5| 6b180b5aba15f40fbc4a86e8e3552263e1023d14  | Between 1→2                   |
-| Stepper=2  | c8863a506caa708a5560d11c3c29abcb8b8d1148  | Step 2 active (KYC)           |
-| Stepper=2.5| 4aa36bf7fcf9bc1a7a78857038d0023638fb2871  | Between 2→3                   |
-| Stepper=3  | 746dd671c46083f3b9fe3b31879191c57633d373  | Step 3 active (Collateral)    |
+| Variant     | Key                                        | State                         |
+|-------------|--------------------------------------------|-------------------------------|
+| Stepper=1   | 895eb3f2c0c3dd1ad525f95f14d6d08beca96914  | Step 1 active (Company)       |
+| Stepper=1.5 | 6b180b5aba15f40fbc4a86e8e3552263e1023d14  | Between 1→2                   |
+| Stepper=2   | c8863a506caa708a5560d11c3c29abcb8b8d1148  | Step 2 active (KYC)           |
+| Stepper=2.5 | 4aa36bf7fcf9bc1a7a78857038d0023638fb2871  | Between 2→3                   |
+| Stepper=3   | 746dd671c46083f3b9fe3b31879191c57633d373  | Step 3 active (Collateral)    |
 
 Library: 📚 Equity Earn Library, component SET key: 5c357019870e3b451060055a2a4a8291050d43a1
 
@@ -188,26 +242,26 @@ Library: 📚 Equity Earn Library, component SET key: 5c357019870e3b451060055a2a
 Component SET key: d055a734ff1f69b650e0b7cfa85750709e477931
 Library: shadcn Jan 2026 community
 
-| Variant                      | Key                                        |
-|------------------------------|--------------------------------------------|
-| Type=default, State=default  | d20b546e2bfdae2926dfdb1bbc540fca5e9252bb  |
-| Type=outline, State=default  | 990dc920c1e1fb5b5fe5f35cb46bee49fd02e860  |
-| Type=ghost, State=default    | c7fb860404a42436192a74293b01f8fe3ed17803  |
-| Type=ghost, State=Selected   | 90e8b0170df79058c22bef18498d10ba1bd5b19e  |
-| Type=link, State=default     | 8f2934f54965edb993bf19a373d89e21fbc0f947  |
-| Type=icon, State=default     | ddbb19d3ea4ad682e364c0c0ac72e156f323e707  |
+| Variant                         | Key                                        |
+|---------------------------------|--------------------------------------------|
+| Type=default, State=default     | d20b546e2bfdae2926dfdb1bbc540fca5e9252bb  |
+| Type=outline, State=default     | 990dc920c1e1fb5b5fe5f35cb46bee49fd02e860  |
+| Type=ghost, State=default       | c7fb860404a42436192a74293b01f8fe3ed17803  |
+| Type=ghost, State=Selected      | 90e8b0170df79058c22bef18498d10ba1bd5b19e  |
+| Type=link, State=default        | 8f2934f54965edb993bf19a373d89e21fbc0f947  |
+| Type=icon, State=default        | ddbb19d3ea4ad682e364c0c0ac72e156f323e707  |
 | Type=destructive, State=default | 6a3d99b3f1db4c04412a75e310fdfb328871fa08 |
 
 ### Button usage rules
 
-| Component         | Usage                                                          |
-|-------------------|----------------------------------------------------------------|
-| Button (default)  | Primary CTA — always rounded-full w-full                      |
-| Button (outline)  | Google SSO, secondary actions — add shadow-xs                 |
-| Button (ghost)    | Nav tabs, icon-only actions — white fill override on dark bg  |
-| Button (link)     | Inline text links (e.g. "Request to add a Company")           |
-| Button (destructive) | Reject/delete in admin portal                             |
-| Button (icon)     | Icon-only actions                                             |
+| Component            | Usage                                                          |
+|----------------------|----------------------------------------------------------------|
+| Button (default)     | Primary CTA — always rounded-full w-full                      |
+| Button (outline)     | Google SSO, secondary actions — add shadow-xs                 |
+| Button (ghost)       | Nav tabs, icon-only actions — white fill override on dark bg  |
+| Button (link)        | Inline text links (e.g. "Request to add a Company")           |
+| Button (destructive) | Reject/delete in admin portal                                 |
+| Button (icon)        | Icon-only actions                                             |
 
 Always hide `lucide/loader-circle` on instances: `loader.visible = false`
 
@@ -236,6 +290,7 @@ Library: shadcn Jan 2026 community
 | Input           | Always use via With Label — never bare                         |
 | Label           | Always paired with Input via htmlFor                           |
 | Separator       | Horizontal dividers — pair with label overlay for "OR"         |
+| Alert           | All info notices, warnings, status messages — never plain divs |
 | Badge           | Status indicators — see colour token map in design-tokens.md   |
 | Tabs            | Admin portal navigation, page-level switching                  |
 | Dialog          | All modals — max-w-[657px] per PRD                             |
@@ -246,6 +301,24 @@ Library: shadcn Jan 2026 community
 | Table           | All admin portal data tables                                   |
 | Sheet           | Mobile-friendly side panels                                    |
 | Sonner          | Toast notifications                                            |
+
+---
+
+## Full-bleed page layouts (Sign In, Sign Up)
+
+Pre-login screens fill the full viewport — no padding, no max-width,
+no border around the outer wrapper.
+
+Correct:
+  div className="min-h-screen flex"
+    div className="flex w-full overflow-hidden"
+
+Wrong — creates a visible border/gap:
+  div className="min-h-screen flex items-center justify-center bg-muted p-4"
+    div className="flex w-full max-w-[1333px] h-[930px] rounded-[14px] border"
+
+Post-login screens (dashboard, KYC, etc.) use the standard layout:
+  bg-muted full page → centered card with rounded-[14px] border and shadow-xs
 
 ---
 
@@ -300,6 +373,7 @@ Never hardcode white or any colour directly on icon vector nodes.
 | Notifications         | Bell             |
 | KYC verified          | ShieldCheck      |
 | Deploy / invest       | Rocket           |
+| Info / notices        | Info             |
 
 ---
 
@@ -319,13 +393,13 @@ Never hardcode hex values. Always bind to variables.
 ```js
 // Confirmed variable IDs (EquityEarn file)
 const mutedFgVar       = await figma.variables.getVariableByIdAsync(
-  "VariableID:022a84dc6b29f9af780898b12aa2c4bb4aa781d2/3003:5"  // muted-foreground
+  "VariableID:022a84dc6b29f9af780898b12aa2c4bb4aa781d2/3003:5"
 );
 const textSecondaryVar = await figma.variables.getVariableByIdAsync(
-  "VariableID:40002047:4301"  // Text/Secondary
+  "VariableID:40002047:4301"
 );
 const strokeVar        = await figma.variables.getVariableByIdAsync(
-  "VariableID:40002051:3308"  // Stroke
+  "VariableID:40002051:3308"
 );
 ```
 
@@ -335,13 +409,13 @@ const strokeVar        = await figma.variables.getVariableByIdAsync(
 
 Build in components/equityearn/ — these are NOT shadcn primitives.
 
-| Component       | Built from          | Purpose                                          |
-|-----------------|---------------------|--------------------------------------------------|
-| HealthScoreCard | Card + Progress     | 4-state colour logic (safe/warning/alert/critical)|
-| LTVDisplay      | Card + Badge        | LTV % with colour-coded indicator                |
-| InterestTicker  | Card                | Real-time accruing interest, updates every 1s    |
-| ProfitTicker    | Card                | Real-time profit per REIT strategy               |
-| StockCard       | Card + Badge        | Pledged stock value + performance                |
-| AllocationSlider| Slider × 3          | REIT allocation mix with blended APY preview     |
-| KYCStatusBadge  | Badge               | pending / approved / rejected states             |
-| NavBar          | Nav bar component   | Wraps canonical EE Library nav bar               |
+| Component        | Built from          | Purpose                                            |
+|------------------|---------------------|----------------------------------------------------|
+| HealthScoreCard  | Card + Progress     | 4-state colour logic (safe/warning/alert/critical) |
+| LTVDisplay       | Card + Badge        | LTV % with colour-coded indicator                  |
+| InterestTicker   | Card                | Real-time accruing interest, updates every 1s      |
+| ProfitTicker     | Card                | Real-time profit per REIT strategy                 |
+| StockCard        | Card + Badge        | Pledged stock value + performance                  |
+| AllocationSlider | Slider × 3          | REIT allocation mix with blended APY preview       |
+| KYCStatusBadge   | Badge               | pending / approved / rejected states               |
+| NavBar           | Nav bar component   | Wraps canonical EE Library nav bar                 |
